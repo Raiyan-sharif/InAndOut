@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace InAndOut.Models
 {
-    public class Item
+    public class Expense
     {
         [Key]
         public int Id { get; set; }
-        public string Borrower { get; set; }
-        public string Lender { get; set; }
-        [DisplayName("Item Name")]
-        public string ItemName { get; set; }
-
+        [DisplayName("Expense Name")]
+        public string ExpenseName { get; set; }
+        public int Amount { get; set; }
     }
 }
