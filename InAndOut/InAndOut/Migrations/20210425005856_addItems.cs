@@ -2,7 +2,7 @@
 
 namespace InAndOut.Migrations
 {
-    public partial class addItemsToDatabase : Migration
+    public partial class addItems : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,9 @@ namespace InAndOut.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Brrower = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Borrower = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
