@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InAndOut.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210425235559_addEXpensesToDb")]
-    partial class addEXpensesToDb
+    [Migration("20210426235826_addDBFk")]
+    partial class addDBFk
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,11 +31,33 @@ namespace InAndOut.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ExpenseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ExpenseTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpenseTypeId");
+
+                    b.ToTable("Expenses");
+                });
+
+            modelBuilder.Entity("InAndOut.Models.ExpenseType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Expenses");
+                    b.ToTable("ExpensesType");
                 });
 
             modelBuilder.Entity("InAndOut.Models.Item", b =>
@@ -57,6 +79,17 @@ namespace InAndOut.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("InAndOut.Models.Expense", b =>
+                {
+                    b.HasOne("InAndOut.Models.ExpenseType", "ExpenseType")
+                        .WithMany()
+                        .HasForeignKey("ExpenseTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExpenseType");
                 });
 #pragma warning restore 612, 618
         }
